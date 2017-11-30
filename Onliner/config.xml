@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<config>
+  <browser>Chrome</browser>
+  <url>http://onliner.by</url>
+  <username>Armatura.Minsk</username>
+  <password>b8gdPlOSdrfPiSWgHs8H</password>
+  <implicitwait>15</implicitwait>
+  <expectedwait>45</expectedwait>
+  <pathcsv>Onliner\..\..\opinions.csv</pathcsv>
+</config>
