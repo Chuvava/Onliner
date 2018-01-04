@@ -6,5 +6,5 @@
   <password>b8gdPlOSdrfPiSWgHs8H</password>
   <implicitwait>15</implicitwait>
   <expectedwait>45</expectedwait>
-  <pathcsv>Onliner\..\..\opinions.csv</pathcsv>
+  <pathToOutputCsv>Onliner\..\..\opinions.csv</pathToOutputCsv>
 </config>

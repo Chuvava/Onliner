@@ -58,13 +58,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Framework\Browser.cs" />
-    <Compile Include="Framework\GetConfig.cs" />
+    <Compile Include="Framework\BrowserFactory.cs" />
+    <Compile Include="Framework\Configuration.cs" />
+    <Compile Include="Framework\CsvWriter.cs" />
     <Compile Include="PageObjects\LoginPage.cs" />
     <Compile Include="PageObjects\SomeCategoryPage.cs" />
     <Compile Include="TestCases\OnlinerTest.cs">
       <CustomToolNamespace>D:\VSProjects\a1qahome\2\Onliner\Onliner</CustomToolNamespace>
     </Compile>
-    <Compile Include="PageObjects\OnlinerMainPage.cs" />
+    <Compile Include="PageObjects\MainPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,67 +1,67 @@
 ﻿using System;
-using System.Threading;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.IE;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+
 
 namespace Onliner.Framework
 {
-    class Browser
+    public class Browser
     {
-        private static readonly IDictionary<string, IWebDriver> Drivers = 
-            new Dictionary<string, IWebDriver>();
-
-        private static IWebDriver driver;
-        private static object valueBlock = new object();
-      
-        public static IWebDriver Driver
+        private readonly IWebDriver driver = BrowserFactory.GetDriver();
+        private static Browser browser;
+        private Browser()
         {
-            get
-            {
-                return driver;
-            }
-            private set
-            { driver = value; }
         }
 
-        public static void InitBrowser(string browserName)
+        public static Browser GetInstance()
         {
-            lock (valueBlock)
+            if (browser == null)
             {
-                switch (browserName)
-                {
-                    case "Chrome":
-                    {
-                        if (Driver == null)
-                        {
-                            driver = new ChromeDriver();
-                            Drivers.Add("Chrome", Driver);
-                        }
-                        break;
-                    }
-
-                    case "Firefox":
-                        if (Driver == null)
-                        {
-                            driver = new FirefoxDriver();
-                            Drivers.Add("Firefox", Driver);
-                        }
-                        break;
-                }
+                browser = new Browser();
+                browser.SetImplicitWait(Configuration.GetImplicitWait());
+                browser.WindowMaximize();
+                browser.NavigateToUrl(Configuration.GetUrl());
             }
+            return browser;
         }
 
-        public static void LoadApplication(string url)
+        public IWebDriver GetBrowser()
         {
-            Driver.Url = url;
+            return driver;
+        }
+
+        public void SetImplicitWait(int timeout)
+        {
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(timeout);
+        }
+
+        public void WindowMaximize()
+        {
+            driver.Manage().Window.Maximize();
+        }
+
+        public void NavigateToUrl(string url)
+        {
+            driver.Navigate().GoToUrl(url);
+        }
+
+        public void Quit()
+        {
+            driver.Quit();
         }
 
         public static void CloseBrowser()
         {
-            Driver.Quit();
+            browser.Quit();
+        }
+
+        public string GetPageSource()
+        {
+            return driver.PageSource;
+        }
+
+        public static string PageSource()
+        {
+            return browser.GetPageSource();
         }
     }
 }

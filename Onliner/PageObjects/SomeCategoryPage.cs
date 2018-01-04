@@ -1,9 +1,7 @@
-﻿using System;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.IE;
+﻿using OpenQA.Selenium;
 using NUnit.Framework;
+using Onliner.Framework;
+
 
 namespace Onliner
 {
@@ -17,11 +15,15 @@ namespace Onliner
             this.driver = driver;
         }
 
-        public MainPage AssertCategory(string nameCategory)
+        public void AssertCategory(string nameCategory)
         {
             string H1 = driver.FindElement(h1).GetAttribute("innerText");
             Assert.AreEqual(H1, nameCategory, "True category");
-            return new MainPage(driver);
+        }
+
+        public void NavigateToMainPage()
+        {
+            driver.Url = Configuration.GetUrl();
         }
     }
 }

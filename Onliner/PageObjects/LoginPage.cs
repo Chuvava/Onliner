@@ -1,52 +1,56 @@
 ﻿using System;
-using System.Configuration;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.IE;
 using NUnit.Framework;
+using OpenQA.Selenium;
 using Onliner.Framework;
-using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium.Interactions;
-using OpenQA.Selenium.Support.Events;
+using OpenQA.Selenium.Support.UI;
+
 
 namespace Onliner
 {
     class LoginPage
     {
         private IWebDriver driver;
+        private WebDriverWait wait;
+        private IWebElement webUsername;
+        private IWebElement webPassword;
+        private IWebElement btnSubmit;
         private By username = By.XPath("//input[@placeholder='Ник или e-mail']");
         private By password = By.XPath("//input[@placeholder='Пароль']");
         private By submit = By.ClassName("auth-box__auth-submit");
-        private readonly string strUsername = GetConfig.GetUsername();
-        private readonly string strPassword = GetConfig.GetPassword();
         
         public LoginPage(IWebDriver driver)
         {
             this.driver = driver;
+            Assert.IsTrue(driver.FindElement(username).Displayed, "Login Page opened");
         }
 
-        public void SetUsername()
+        public void SetUsername(string strUsername)
         {
-            driver.FindElement(username).SendKeys(strUsername);
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(Configuration.GetExpectedWait()));
+            webUsername = wait.Until(ExpectedConditions.ElementToBeClickable(username)); 
+            webUsername.SendKeys(strUsername);
         }
 
-        public void SetPassword()
+        public void SetPassword(string strPassword)
         {
-            driver.FindElement(password).SendKeys(strPassword);
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(Configuration.GetExpectedWait()));
+            webPassword = wait.Until(ExpectedConditions.ElementToBeClickable(password));
+            webPassword.SendKeys(strPassword);
         }
 
         public void SubmitLoginForm()
-        {
-            IWebElement submitButton = driver.FindElement(submit);
+        {            
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(Configuration.GetExpectedWait()));
+            btnSubmit = wait.Until(x => x.FindElement(submit));
             Actions action = new Actions(driver);
-            action.DoubleClick(submitButton).Perform();
+            action.DoubleClick(btnSubmit).Perform();
         }
 
-        public void Authorization()
+        public void Authorization(string strUsername, string strPassword)
         {
-            SetUsername();
-            SetPassword();
+            SetUsername(strUsername);
+            SetPassword(strPassword);
             SubmitLoginForm();
         }
     }
